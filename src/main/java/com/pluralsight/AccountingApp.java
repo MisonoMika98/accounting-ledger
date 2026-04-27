@@ -8,12 +8,16 @@ import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AccountingApp
 {
 
     static Scanner userInput = new Scanner(System.in);
+
+    static ArrayList<TransactionsInfo> transactions;
 
     static void main()
     {
@@ -82,9 +86,22 @@ public class AccountingApp
 
         // fixes formatting of the date, makes it American standard
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        LocalDate dateOfTransaction = LocalDate.parse(userDateInput, formatter);
+        LocalDate dateOfTransaction;
 
-        // add timestamp without user input
+        // try catch so the app doesn't crash if user inputs a date in the wrong format
+        try
+        {
+            dateOfTransaction = LocalDate.parse(userDateInput, formatter);
+        }
+        catch (Exception ex)
+        {
+            System.out.println("Invalid date format, please try again");
+            displayDepositScreen();
+            return;
+        }
+
+
+        // add timestamp for hours,mins, and secs without user input
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("HH:mm:ss");
         String timeStamp = now.format(formatter2);
@@ -92,10 +109,12 @@ public class AccountingApp
         // calls logTransactions method
         // plugs in user input variables above
         // the user inputs are recorded onto the .csv using logTransactions initial variables
-        logTransactions(userDateInput, timeStamp, itemName, vendorName, amountSpent);
+        logTransactions(dateOfTransaction.format(formatter), timeStamp, itemName, vendorName, amountSpent);
 
         System.out.println();
         System.out.println("Deposit Recorded");
+        System.out.println();
+        System.out.println("Returning to Home Screen...");
         displayHomeScreen();
 
 
@@ -136,9 +155,11 @@ public class AccountingApp
 
             case "R":
                 displayReportsScreen();
+                break;
 
             case "H":
                 displayHomeScreen();
+                break;
 
             default:
                 System.out.println("Error, please try again");
@@ -201,7 +222,11 @@ public class AccountingApp
 
 
     // WORK IN PROGRESS
-    static void loadTransactions() {
+    static ArrayList <TransactionsInfo> loadTransactions()
+    {
+        // create the container/arraylist
+        ArrayList<TransactionsInfo> transactions = new ArrayList<>();
+
         try
         {
             FileReader fileReader = new FileReader("transactions.csv");
@@ -233,6 +258,7 @@ public class AccountingApp
         {
             System.out.println(ex.getMessage());
         }
+        return transactions;
     }
 
 
