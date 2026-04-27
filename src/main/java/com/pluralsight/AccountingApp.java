@@ -1,7 +1,9 @@
 package com.pluralsight;
 
 
+import java.io.BufferedReader;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -67,6 +69,8 @@ public class AccountingApp
         System.out.println();
         System.out.println("Please Enter Your Deposit Information Below");
         System.out.println("--------------------------------------------------");
+
+        // user inputs
         System.out.print("Enter the name of the item: ");
         String itemName = userInput.nextLine().strip();
         System.out.print("Enter the name of the vendor: ");
@@ -93,7 +97,6 @@ public class AccountingApp
         System.out.println();
         System.out.println("Deposit Recorded");
         displayHomeScreen();
-
 
 
     }
@@ -197,12 +200,43 @@ public class AccountingApp
     }
 
 
-
-
-
-
-
     // WORK IN PROGRESS
+    static void loadTransactions() {
+        try
+        {
+            FileReader fileReader = new FileReader("transactions.csv");
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            // skips header
+            String lines = bufferedReader.readLine();
+
+            // reads the .csv file
+            while ((lines = bufferedReader.readLine()) != null)
+            {
+
+                // array to split the .csv into columns
+                String[] columns = lines.split("\\|");
+                String date = columns[0];
+                String time = columns[1];
+                String description = columns[2];
+                String vendor = columns[3];
+                double amount = Double.parseDouble(columns[4]);
+
+                // created object
+                TransactionsInfo transactionsInfo = new TransactionsInfo(date, time, description, vendor, amount);
+            }
+
+            bufferedReader.close();
+        }
+
+        catch(Exception ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+
+
 
     private static void logTransactions (String dateInput, String time, String description, String vendor, double amount)
     {
