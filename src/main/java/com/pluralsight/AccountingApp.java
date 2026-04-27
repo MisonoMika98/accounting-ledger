@@ -3,8 +3,6 @@ package com.pluralsight;
 
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class AccountingApp
@@ -18,7 +16,6 @@ public class AccountingApp
     }
 
 
-
     static void displayHomeScreen()
     {
         System.out.println();
@@ -29,12 +26,12 @@ public class AccountingApp
         System.out.println("L) Ledger Display");
         System.out.println("X) Exit");
         System.out.println();
-        System.out.print("Make a choice: ");
-        String choice = userInput.nextLine().toUpperCase().strip();
+        System.out.print("Make your selection here: ");
+        String selection = userInput.nextLine().toUpperCase().strip();
 
         System.out.println();
 
-        switch (choice)
+        switch (selection)
         {
             case "D":
                 System.out.println("deposit function placeholder");
@@ -69,15 +66,15 @@ public class AccountingApp
         System.out.println("A) Display All Entries");
         System.out.println("D) Deposits");
         System.out.println("P) Payments");
-        System.out.println("R) Reports");
+        System.out.println("R) View Reports");
         System.out.println("H) Back To Home Screen");
         System.out.println();
-        System.out.print("Make a choice: ");
-        String choice2  = userInput.nextLine().toUpperCase().strip();
+        System.out.print("Make your selection here: ");
+        String selection2 = userInput.nextLine().toUpperCase().strip();
 
         System.out.println();
 
-        switch (choice2)
+        switch (selection2)
         {
             case "A":
                 System.out.println("display all entries placeholder");
@@ -92,8 +89,7 @@ public class AccountingApp
                 break;
 
             case "R":
-                System.out.println("Reports screen placeholder");
-                break;
+                displayReportsScreen();
 
             case "H":
                 displayHomeScreen();
@@ -101,14 +97,60 @@ public class AccountingApp
             default:
                 System.out.println("Error, please try again");
                 displayLedgerScreen();
-
         }
 
     }
 
 
 
+    static void displayReportsScreen()
+    {
+        System.out.println();
+        System.out.println("Reports Search");
+        System.out.println("---------------------------------");
+        System.out.println("1) Month To Date");
+        System.out.println("2) Previous Month");
+        System.out.println("3) Year To Date");
+        System.out.println("4) Previous Year");
+        System.out.println("5) Search By Vendor");
+        System.out.println("0) Back To Ledger Screen");
+        System.out.println();
+        System.out.print("Make your selection here: ");
+        String selection3 = userInput.nextLine().strip();
 
+        System.out.println();
+
+        switch (selection3)
+        {
+            case "1":
+                System.out.println("month to date placeholder");
+                break;
+
+            case "2":
+                System.out.println("previous month placeholder");
+                break;
+
+            case "3":
+                System.out.println("year to date placeholder");
+                break;
+
+            case "4":
+                System.out.println("previous year placeholder");
+                break;
+
+            case "5":
+                System.out.println("vendor search function placeholder");
+                break;
+
+            case "0":
+                displayLedgerScreen();
+
+            default:
+                System.out.println("Error, please try again");
+                displayReportsScreen();
+        }
+
+    }
 
 
 
@@ -120,7 +162,8 @@ public class AccountingApp
     // methods to create and log user transactions in a .csv file (W.I.P)
     private static boolean writeHeader = false;
 
-    private static void logTransactions(String userDateInput, String action, String message, double amount) {
+    private static void logTransactions (String userDateInput, String action, String message,double amount)
+    {
 
         FileOutputStream fileOutputStream = null;
         PrintWriter printWriter = null;
@@ -145,18 +188,15 @@ public class AccountingApp
 
             // logs into the .csv file (insert formatter)
             printWriter.println(userDateInput + "|" + "|" + action + "|" + message + "|" + amount);
-            printWriter.printf("%-15s %-10s %-25s %-15s%n", "|", "|", "|", "|");
         }
 
         // catches any errors
-        catch(Exception ex)
+        catch (Exception ex)
         {
             System.out.println(ex.getMessage());
-        }
-
-        finally
+        } finally
         {
-            if(printWriter != null)
+            if (printWriter != null)
             {
                 // PrintWriter doesn't throw an exception if it fails to close, so we don't need to catch it
                 printWriter.close();
