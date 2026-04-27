@@ -4,6 +4,7 @@ package com.pluralsight;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
@@ -79,8 +80,20 @@ public class AccountingApp
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         LocalDate dateOfTransaction = LocalDate.parse(userDateInput, formatter);
 
+        // add timestamp without user input
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String timeStamp = now.format(formatter2);
 
-//        logTransactions(itemName, vendorName, amountSpent);
+        // calls logTransactions method
+        // plugs in user input variables above
+        // the user inputs are recorded onto the .csv using logTransactions initial variables
+        logTransactions(userDateInput, timeStamp, itemName, vendorName, amountSpent);
+
+        System.out.println();
+        System.out.println("Deposit Recorded");
+        displayHomeScreen();
+
 
 
     }
@@ -190,10 +203,8 @@ public class AccountingApp
 
 
     // WORK IN PROGRESS
-    // methods to create and log user transactions in a .csv file (W.I.P)
-    private static boolean writeHeader = false;
 
-    private static void logTransactions (String dateInput, String description, String vendor,double amount)
+    private static void logTransactions (String dateInput, String time, String description, String vendor, double amount)
     {
 
         FileOutputStream fileOutputStream = null;
@@ -205,20 +216,10 @@ public class AccountingApp
             printWriter = new PrintWriter(fileOutputStream);
 
             // gets the specific time for the transaction logs
-//            LocalDateTime now = LocalDateTime.now();
-//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-//            String timeStamp = now.format(formatter);
 
-            // header for the .csv file, only prints ONCE thanks to the boolean,
-            // but will print again if the app is restarted
-            if (!writeHeader)
-            {
-                printWriter.printf("%-15s %-10s %-25s %-15s %-10s%n", "date", "time", "description", "vendor", "amount");
-                writeHeader = true;
-            }
 
             // logs into the .csv file (insert formatter)
-            printWriter.println(dateInput + "|" + "|" + description + "|" + vendor + "|" + amount);
+            printWriter.println(dateInput + "|" + time + "|" + description + "|" + vendor + "|" + amount);
         }
 
         // catches any errors
