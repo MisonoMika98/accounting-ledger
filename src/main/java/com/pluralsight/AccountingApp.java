@@ -3,6 +3,8 @@ package com.pluralsight;
 
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class AccountingApp
@@ -14,6 +16,7 @@ public class AccountingApp
     {
         displayHomeScreen();
     }
+
 
 
     static void displayHomeScreen()
@@ -34,7 +37,7 @@ public class AccountingApp
         switch (selection)
         {
             case "D":
-                System.out.println("deposit function placeholder");
+                displayDepositScreen();
                 break;
 
             case "P":
@@ -55,6 +58,33 @@ public class AccountingApp
         }
 
     }
+
+
+
+    static void displayDepositScreen()
+    {
+        System.out.println();
+        System.out.println("Please Enter Your Deposit Information Below");
+        System.out.println("--------------------------------------------------");
+        System.out.print("Enter the name of the item: ");
+        String itemName = userInput.nextLine().strip();
+        System.out.print("Enter the name of the vendor: ");
+        String vendorName = userInput.nextLine().strip();
+        System.out.print("Enter the amount spent in $: ");
+        double amountSpent = Double.parseDouble(userInput.nextLine());
+        System.out.print("Please enter the date using MM/DD/YYYY format: ");
+        String userDateInput = userInput.nextLine();
+
+        // fixes formatting of the date, makes it American standard
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        LocalDate dateOfTransaction = LocalDate.parse(userDateInput, formatter);
+
+
+//        logTransactions(itemName, vendorName, amountSpent);
+
+
+    }
+
 
 
 
@@ -144,6 +174,7 @@ public class AccountingApp
 
             case "0":
                 displayLedgerScreen();
+                break;
 
             default:
                 System.out.println("Error, please try again");
@@ -162,7 +193,7 @@ public class AccountingApp
     // methods to create and log user transactions in a .csv file (W.I.P)
     private static boolean writeHeader = false;
 
-    private static void logTransactions (String userDateInput, String action, String message,double amount)
+    private static void logTransactions (String dateInput, String description, String vendor,double amount)
     {
 
         FileOutputStream fileOutputStream = null;
@@ -187,14 +218,15 @@ public class AccountingApp
             }
 
             // logs into the .csv file (insert formatter)
-            printWriter.println(userDateInput + "|" + "|" + action + "|" + message + "|" + amount);
+            printWriter.println(dateInput + "|" + "|" + description + "|" + vendor + "|" + amount);
         }
 
         // catches any errors
         catch (Exception ex)
         {
             System.out.println(ex.getMessage());
-        } finally
+        }
+        finally
         {
             if (printWriter != null)
             {
