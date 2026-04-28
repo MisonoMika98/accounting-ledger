@@ -21,6 +21,7 @@ public class AccountingApp
 
     static void main()
     {
+        transactions = loadTransactions();
         displayHomeScreen();
     }
 
@@ -31,7 +32,7 @@ public class AccountingApp
         System.out.println();
         System.out.println("Accounting Ledger Application");
         System.out.println("---------------------------------");
-        System.out.println("D) Add Deposit");
+        System.out.println("D) Add Deposit (Credit)");
         System.out.println("P) Make Payment (Debit)");
         System.out.println("L) Ledger Display");
         System.out.println("X) Exit");
@@ -142,8 +143,8 @@ public class AccountingApp
         switch (selection2)
         {
             case "A":
-                System.out.println("display all entries placeholder");
-                break;
+                displayAllTransactions();
+                displayLedgerScreen();
 
             case "D":
                 System.out.println("display entries that are deposits into account placeholder");
@@ -249,6 +250,9 @@ public class AccountingApp
 
                 // created object
                 TransactionsInfo transactionsInfo = new TransactionsInfo(date, time, description, vendor, amount);
+
+                // adds transactions to the arraylist
+                transactions.add(transactionsInfo);
             }
 
             bufferedReader.close();
@@ -260,6 +264,22 @@ public class AccountingApp
         }
         return transactions;
     }
+
+
+
+    static void displayAllTransactions()
+    {
+        // allTransactions is a temporary variable made to make this loop work
+        for (TransactionsInfo allTransactions : transactions)
+        {
+            System.out.println(allTransactions.getDate() + "|" + allTransactions.getTime() + "|" + allTransactions.getDescription() + "|"
+                    + allTransactions.getVendor() + "|" + allTransactions.getAmount());
+        }
+    }
+
+
+
+
 
 
 
