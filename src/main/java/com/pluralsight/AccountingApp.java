@@ -133,6 +133,7 @@ public class AccountingApp
 
         System.out.println();
         System.out.println("Deposit Recorded");
+        transactions = loadTransactions(); // reloads the arraylist/.csv so it's updated in the app
         System.out.println();
         System.out.println("Returning to Home Screen...");
         displayHomeScreen();
@@ -207,6 +208,7 @@ public class AccountingApp
 
         System.out.println();
         System.out.println("Payment Recorded");
+        transactions = loadTransactions(); // reloads the arraylist/.csv so it's updated in the app
         System.out.println();
         System.out.println("Returning to Home Screen...");
         displayHomeScreen();
@@ -237,13 +239,16 @@ public class AccountingApp
             case "A":
                 displayAllTransactions();
                 displayLedgerScreen();
+                break;
 
             case "D":
-                System.out.println("display entries that are deposits into account placeholder");
+                displayDepositsOnly();
+                displayLedgerScreen();
                 break;
 
             case "P":
-                System.out.println("display only negative payments/entries placeholder");
+                displayPaymentsOnly();
+                displayLedgerScreen();
                 break;
 
             case "R":
@@ -261,6 +266,50 @@ public class AccountingApp
 
     }
 
+
+
+
+    static void displayAllTransactions()
+    {
+        // allTransactions is a temporary variable made to make this loop work
+        for (TransactionsInfo allTransactions : transactions)
+        {
+            System.out.println(allTransactions.getDate() + "|" + allTransactions.getTime() + "|" + allTransactions.getDescription() + "|"
+                    + allTransactions.getVendor() + "|$" + allTransactions.getAmount());
+        }
+    }
+
+
+
+
+    static void displayDepositsOnly()
+    {
+
+        for (TransactionsInfo depositTransactions : transactions)
+        {
+            if (depositTransactions.getAmount() >= 0)
+            {
+            System.out.println(depositTransactions.getDate() + "|" + depositTransactions.getTime() + "|" + depositTransactions.getDescription()
+                    + "|" + depositTransactions.getVendor() + "|$" + depositTransactions.getAmount());
+            }
+        }
+    }
+
+
+
+
+    static void displayPaymentsOnly()
+    {
+        for (TransactionsInfo paymentTransactions : transactions)
+        {
+            // if loop that makes it so only transactions that are negative/subtracting are printed
+            if (paymentTransactions.getAmount() <= 0)
+            {
+                System.out.println(paymentTransactions.getDate() + "|" + paymentTransactions.getTime() + "|"
+                        + paymentTransactions.getDescription() + "|" + paymentTransactions.getVendor() + "|$" + paymentTransactions.getAmount());
+            }
+        }
+    }
 
 
 
@@ -362,19 +411,6 @@ public class AccountingApp
 
 
 
-    static void displayAllTransactions()
-    {
-        // allTransactions is a temporary variable made to make this loop work
-        for (TransactionsInfo allTransactions : transactions)
-        {
-            System.out.println(allTransactions.getDate() + "|" + allTransactions.getTime() + "|" + allTransactions.getDescription() + "|"
-                    + allTransactions.getVendor() + "|" + allTransactions.getAmount());
-        }
-    }
-
-
-
-
     private static void logTransactions (String dateInput, String time, String description, String vendor, double amount)
     {
 
@@ -390,7 +426,7 @@ public class AccountingApp
 
 
             // logs into the .csv file (insert formatter)
-            printWriter.println(dateInput + "|" + time + "|" + description + "|" + vendor + "|" + "$" + amount);
+            printWriter.println(dateInput + "|" + time + "|" + description + "|" + vendor + "|" + amount);
         }
 
         // catches any errors
@@ -408,4 +444,5 @@ public class AccountingApp
         }
 
     }
+
 }
