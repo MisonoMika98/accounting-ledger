@@ -1,5 +1,8 @@
 package com.pluralsight;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class TransactionsInfo
 {
     private String date;
@@ -38,5 +41,13 @@ public class TransactionsInfo
 
     public double getAmount() {
         return amount;
+    }
+
+
+    // helper method to reduce clutter in the methods used in displayReportsScreen
+    public LocalDate getLocalDate()
+    {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        return LocalDate.parse(date, formatter);
     }
 }

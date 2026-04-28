@@ -269,9 +269,10 @@ public class AccountingApp
 
 
 
+    // method used inside displayLedgerScreen();
     static void displayAllTransactions()
     {
-        // allTransactions is a temporary variable made to make this loop work
+        // allTransactions is a temporary variable created to make this loop work
         for (TransactionsInfo allTransactions : transactions)
         {
             System.out.println(allTransactions.getDate() + "|" + allTransactions.getTime() + "|" + allTransactions.getDescription() + "|"
@@ -282,11 +283,13 @@ public class AccountingApp
 
 
 
+    // method used inside displayLedgerScreen();
     static void displayDepositsOnly()
     {
-
+        // depositTransactions is a temporary variable created to make this loop work
         for (TransactionsInfo depositTransactions : transactions)
         {
+            // if loop that makes it so only deposits are printed, since they can't be negative
             if (depositTransactions.getAmount() >= 0)
             {
             System.out.println(depositTransactions.getDate() + "|" + depositTransactions.getTime() + "|" + depositTransactions.getDescription()
@@ -298,8 +301,10 @@ public class AccountingApp
 
 
 
+    // method used inside displayLedgerScreen();
     static void displayPaymentsOnly()
     {
+        // paymentTransactions is a temporary variable created to make this loop work
         for (TransactionsInfo paymentTransactions : transactions)
         {
             // if loop that makes it so only transactions that are negative/subtracting are printed
@@ -333,7 +338,8 @@ public class AccountingApp
         switch (selection3)
         {
             case "1":
-                System.out.println("month to date placeholder");
+                monthToDateFilter();
+                displayReportsScreen();
                 break;
 
             case "2":
@@ -366,6 +372,28 @@ public class AccountingApp
 
 
 
+    // method used inside displayReportsScreen();
+    static void monthToDateFilter()
+    {
+        // gets the current date
+        LocalDate currentDate = LocalDate.now();
+
+        // entry is a temp variable to help the loop work/filter
+        for (TransactionsInfo entry : transactions)
+        {
+            // .getLocalDate is a helper method I have inside the TransactionsInfo class
+            // .getMonth and .getYear are getters built into LocalDate import
+            if (entry.getLocalDate().getMonth() == currentDate.getMonth() && entry.getLocalDate().getYear() == currentDate.getYear())
+            {
+                System.out.println(entry.getDate() + "|" + entry.getTime() + "|" + entry.getDescription() + "|" + entry.getVendor() + "|$" + entry.getAmount());
+            }
+        }
+    }
+
+
+
+
+    // arraylist used to load the .csv for use inside the app
     static ArrayList <TransactionsInfo> loadTransactions()
     {
         // create the container/arraylist
@@ -411,6 +439,7 @@ public class AccountingApp
 
 
 
+    // log method used to add the user's inputs onto the .csv file
     private static void logTransactions (String dateInput, String time, String description, String vendor, double amount)
     {
 
