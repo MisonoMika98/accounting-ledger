@@ -14,8 +14,8 @@ public class AccountingApp
 {
 
     static Scanner userInput = new Scanner(System.in);
-
     static ArrayList<TransactionsInfo> transactions;
+
 
     static void main()
     {
@@ -25,13 +25,14 @@ public class AccountingApp
 
 
 
+
     static void displayHomeScreen()
     {
         System.out.println();
         System.out.println("Accounting Ledger Application");
         System.out.println("---------------------------------");
         System.out.println("D) Add Deposit (Credit)");
-        System.out.println("P) Make Payment (Debit)");
+        System.out.println("P) Make A Payment (Debit)");
         System.out.println("L) Ledger Display");
         System.out.println("X) Exit");
         System.out.println();
@@ -47,7 +48,7 @@ public class AccountingApp
                 break;
 
             case "P":
-                System.out.println("payment function placeholder");
+                displayPaymentScreen();
                 break;
 
             case "L":
@@ -67,21 +68,22 @@ public class AccountingApp
 
 
 
+
     static void displayDepositScreen()
     {
         System.out.println();
-        System.out.println("Please Enter Your Deposit Information Below");
-        System.out.println("--------------------------------------------------");
+        System.out.println("Please Enter Your Deposit (Credit) Information Below");
+        System.out.println("--------------------------------------------------------");
 
 
         // user inputs
-        System.out.print("Enter the amount you are depositing: ");
-        double amountSpent;
+        System.out.print("Please enter the amount you are depositing: ");
+        double amountDeposited;
 
-        // try catch so the app doesn't crash if user inputs a string or nothing when asked for $
+        // try catch so the app doesn't crash if user inputs a string or nothing when asked for $ amount
         try
         {
-            amountSpent = Double.parseDouble(userInput.nextLine());
+            amountDeposited = Double.parseDouble(userInput.nextLine());
         }
         catch (Exception ex)
         {
@@ -111,11 +113,11 @@ public class AccountingApp
         }
 
 
-        System.out.print("Enter a description: ");
+        System.out.print("Please enter a description: ");
         String enterDescription = userInput.nextLine().strip();
 
 
-        System.out.print("Enter the name of the vendor (whoever gave you the money): ");
+        System.out.print("Please enter the name of the vendor (whoever gave you the money): ");
         String vendorName = userInput.nextLine().strip();
 
 
@@ -127,10 +129,84 @@ public class AccountingApp
         // calls logTransactions method
         // plugs in user input variables above
         // the user inputs are recorded onto the .csv using logTransactions initial variables
-        logTransactions(dateOfTransaction.format(formatter), timeStamp, enterDescription, vendorName, amountSpent);
+        logTransactions(dateOfTransaction.format(formatter), timeStamp, enterDescription, vendorName, amountDeposited);
 
         System.out.println();
         System.out.println("Deposit Recorded");
+        System.out.println();
+        System.out.println("Returning to Home Screen...");
+        displayHomeScreen();
+
+    }
+
+
+
+
+    static void displayPaymentScreen()
+    {
+        System.out.println();
+        System.out.println("Please Enter Your Payment (Debit) Information Below");
+        System.out.println("------------------------------------------------------");
+
+        // user inputs
+        System.out.print("Please enter the amount you spent: ");
+        double amountSpent;
+
+        // try catch so the app doesn't crash if user inputs a string or nothing when asked for $ amount
+        try
+        {
+            amountSpent = Double.parseDouble(userInput.nextLine());
+        }
+        catch (Exception ex)
+        {
+            System.out.println("Invalid number, please try again");
+            displayPaymentScreen();
+            return;
+        }
+
+
+        System.out.print("Please enter the date of the payment using MM/DD/YYYY format: ");
+        String userDateInput = userInput.nextLine();
+
+        // fixes formatting of the date, makes it American standard
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        LocalDate dateOfTransaction;
+
+        // try catch so the app doesn't crash if user inputs a date in the wrong format
+        try
+        {
+            dateOfTransaction = LocalDate.parse(userDateInput, formatter);
+        }
+        catch (Exception ex)
+        {
+            System.out.println("Invalid date format, please try again");
+            displayPaymentScreen();
+            return;
+        }
+
+
+        System.out.print("Please enter the name or description of the product: ");
+        String productDescription = userInput.nextLine().strip();
+
+
+        System.out.print("Please enter the name of the vendor: ");
+        String vendorName = userInput.nextLine().strip();
+
+
+        // add timestamp for hours,mins, and secs without user input
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String timeStamp = now.format(formatter2);
+
+
+        // calls logTransactions method
+        // plugs in user input variables above
+        // the user inputs are recorded onto the .csv using logTransactions initial variables
+
+        logTransactions(dateOfTransaction.format(formatter), timeStamp, productDescription, vendorName, -amountSpent); // records user $ input as negative
+
+        System.out.println();
+        System.out.println("Payment Recorded");
         System.out.println();
         System.out.println("Returning to Home Screen...");
         displayHomeScreen();
@@ -187,6 +263,7 @@ public class AccountingApp
 
 
 
+
     static void displayReportsScreen()
     {
         System.out.println();
@@ -239,6 +316,7 @@ public class AccountingApp
 
 
 
+
     static ArrayList <TransactionsInfo> loadTransactions()
     {
         // create the container/arraylist
@@ -283,6 +361,7 @@ public class AccountingApp
 
 
 
+
     static void displayAllTransactions()
     {
         // allTransactions is a temporary variable made to make this loop work
@@ -292,10 +371,6 @@ public class AccountingApp
                     + allTransactions.getVendor() + "|" + allTransactions.getAmount());
         }
     }
-
-
-
-
 
 
 
@@ -315,7 +390,7 @@ public class AccountingApp
 
 
             // logs into the .csv file (insert formatter)
-            printWriter.println(dateInput + "|" + time + "|" + description + "|" + vendor + "|" + amount);
+            printWriter.println(dateInput + "|" + time + "|" + description + "|" + vendor + "|" + "$" + amount);
         }
 
         // catches any errors
