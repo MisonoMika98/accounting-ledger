@@ -203,8 +203,8 @@ public class AccountingApp
         // calls logTransactions method
         // plugs in user input variables above
         // the user inputs are recorded onto the .csv using logTransactions initial variables
-
         logTransactions(dateOfTransaction.format(formatter), timeStamp, productDescription, vendorName, -amountSpent); // records user $ input as negative
+
 
         System.out.println();
         System.out.println("Payment Recorded");
@@ -318,6 +318,7 @@ public class AccountingApp
 
 
 
+
     static void displayReportsScreen()
     {
         System.out.println();
@@ -343,19 +344,26 @@ public class AccountingApp
                 break;
 
             case "2":
-                System.out.println("previous month placeholder");
+                previousMonthFilter();
+                displayReportsScreen();
                 break;
 
             case "3":
-                System.out.println("year to date placeholder");
+                yearToDateFilter();
+                displayReportsScreen();
                 break;
 
             case "4":
-                System.out.println("previous year placeholder");
+                previousYearFilter();
+                displayReportsScreen();
                 break;
 
             case "5":
-                System.out.println("vendor search function placeholder");
+                System.out.println();
+                System.out.print("Enter the vendor name you would like to search for: ");
+                String vendorInput = userInput.nextLine().strip();
+                vendorSearch(vendorInput);
+                displayReportsScreen();
                 break;
 
             case "0":
@@ -390,6 +398,90 @@ public class AccountingApp
         }
     }
 
+
+
+
+
+    // method used inside displayReportsScreen();
+    static void previousMonthFilter()
+    {
+        // gets the current date
+        LocalDate currentDate = LocalDate.now();
+        // subtracts 1 month from currentDate's month to get the previous month using LocalDate's .minusMonths
+        LocalDate lastMonth = currentDate.minusMonths(1);
+
+        // entry is a temp variable to help the loop work/filter
+        for (TransactionsInfo entry : transactions)
+        {
+            // .getLocalDate is a helper method I have inside the TransactionsInfo class
+            // .getMonth and .getYear are getters built into LocalDate import
+            if (entry.getLocalDate().getMonth() == lastMonth.getMonth() && entry.getLocalDate().getYear() == lastMonth.getYear())
+            {
+                System.out.println(entry.getDate() + "|" + entry.getTime() + "|" + entry.getDescription() + "|" + entry.getVendor() + "|$" + entry.getAmount());
+            }
+        }
+    }
+
+
+
+
+    // method used inside displayReportsScreen();
+    static void yearToDateFilter()
+    {
+        // gets the current date
+        LocalDate currentDate = LocalDate.now();
+
+        // entry is a temp variable to help the loop work/filter
+        for (TransactionsInfo entry : transactions)
+        {
+            // .getLocalDate is a helper method I have inside the TransactionsInfo class
+            // .getMonth and .getYear are getters built into LocalDate import
+            if (entry.getLocalDate().getYear() == currentDate.getYear())
+            {
+                System.out.println(entry.getDate() + "|" + entry.getTime() + "|" + entry.getDescription() + "|" + entry.getVendor() + "|$" + entry.getAmount());
+            }
+        }
+    }
+
+
+
+
+    // method used inside displayReportsScreen();
+    static void previousYearFilter()
+    {
+        // gets the current date
+        LocalDate currentDate = LocalDate.now();
+        // subtracts 1 year from currentDate's year to get the previous year using LocalDate's .minusYears
+        LocalDate lastYear = currentDate.minusYears(1);
+
+        // entry is a temp variable to help the loop work/filter
+        for (TransactionsInfo entry : transactions)
+        {
+            // .getLocalDate is a helper method I have inside the TransactionsInfo class
+            // .getYear is a getter built into LocalDate import
+            // && not needed because I don't need to know months for this filter
+            if (entry.getLocalDate().getYear() == lastYear.getYear())
+            {
+                System.out.println(entry.getDate() + "|" + entry.getTime() + "|" + entry.getDescription() + "|" + entry.getVendor() + "|$" + entry.getAmount());
+            }
+        }
+    }
+
+
+
+
+    // method used inside displayReportsScreen();
+    static void vendorSearch(String vendor)
+    {
+        for (TransactionsInfo transaction : transactions)
+        {
+            if (transaction.getVendor().toLowerCase().contains(vendor.toLowerCase()))
+            {
+                System.out.println(transaction.getDate() + "|" + transaction.getTime() + "|" + transaction.getDescription()
+                        + "|" + transaction.getVendor() + "|$" + transaction.getAmount());
+            }
+        }
+    }
 
 
 
