@@ -1,6 +1,5 @@
 package com.pluralsight;
 
-
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -8,7 +7,6 @@ import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -75,14 +73,25 @@ public class AccountingApp
         System.out.println("Please Enter Your Deposit Information Below");
         System.out.println("--------------------------------------------------");
 
+
         // user inputs
-        System.out.print("Enter the name of the item: ");
-        String itemName = userInput.nextLine().strip();
-        System.out.print("Enter the name of the vendor: ");
-        String vendorName = userInput.nextLine().strip();
-        System.out.print("Enter the amount spent in $: ");
-        double amountSpent = Double.parseDouble(userInput.nextLine());
-        System.out.print("Please enter the date using MM/DD/YYYY format: ");
+        System.out.print("Enter the amount you are depositing: ");
+        double amountSpent;
+
+        // try catch so the app doesn't crash if user inputs a string or nothing when asked for $
+        try
+        {
+            amountSpent = Double.parseDouble(userInput.nextLine());
+        }
+        catch (Exception ex)
+        {
+            System.out.println("Invalid number, please try again");
+            displayDepositScreen();
+            return;
+        }
+
+
+        System.out.print("Please enter the date of the deposit using MM/DD/YYYY format: ");
         String userDateInput = userInput.nextLine();
 
         // fixes formatting of the date, makes it American standard
@@ -102,6 +111,14 @@ public class AccountingApp
         }
 
 
+        System.out.print("Enter a description: ");
+        String enterDescription = userInput.nextLine().strip();
+
+
+        System.out.print("Enter the name of the vendor (whoever gave you the money): ");
+        String vendorName = userInput.nextLine().strip();
+
+
         // add timestamp for hours,mins, and secs without user input
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -110,14 +127,13 @@ public class AccountingApp
         // calls logTransactions method
         // plugs in user input variables above
         // the user inputs are recorded onto the .csv using logTransactions initial variables
-        logTransactions(dateOfTransaction.format(formatter), timeStamp, itemName, vendorName, amountSpent);
+        logTransactions(dateOfTransaction.format(formatter), timeStamp, enterDescription, vendorName, amountSpent);
 
         System.out.println();
         System.out.println("Deposit Recorded");
         System.out.println();
         System.out.println("Returning to Home Screen...");
         displayHomeScreen();
-
 
     }
 
@@ -222,7 +238,7 @@ public class AccountingApp
     }
 
 
-    // WORK IN PROGRESS
+
     static ArrayList <TransactionsInfo> loadTransactions()
     {
         // create the container/arraylist
