@@ -87,6 +87,7 @@ public class AccountingApp
                 break;
 
             default:
+                System.out.println();
                 System.out.println("Error, please try again");
                 displayHomeScreen();
         }
@@ -287,7 +288,7 @@ public class AccountingApp
                 break;
 
             // easter egg 2
-            case "AZOOS":
+            case "Z":
                 String art = """
                     ⢰⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶
                     ⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣿⣿⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
@@ -321,6 +322,7 @@ public class AccountingApp
                 break;
 
             default:
+                System.out.println();
                 System.out.println("Error, please try again");
                 displayLedgerScreen();
         }
@@ -439,171 +441,178 @@ public class AccountingApp
                 System.out.println("4) Vendor");
                 System.out.println("5) Amount of $");
                 System.out.println("0) Exit Custom Search");
+                System.out.print("Enter your selection here: ");
                 String searchSelection = userInput.nextLine().strip();
 
-                // switch inside a switch... switchception O_o
-                switch (searchSelection)
-                {
-                    case "1":
-                        System.out.println();
-                        System.out.print("Enter the start date you would like to search for (MM/DD/YYYY): ");
-                        String startDateSearch = userInput.nextLine().strip();
+                    // switch inside a switch... switchception O_o
+                    switch (searchSelection)
+                    {
+                        case "1":
+                            System.out.println();
+                            System.out.print("Enter the start date you would like to search for (MM/DD/YYYY): ");
+                            String startDateSearch = userInput.nextLine().strip();
 
-                        // reused code from deposit and payment screen methods
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-                        LocalDate startDate;
+                            // reused code from deposit and payment screen methods
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+                            LocalDate startDate;
 
-                        try
-                        {
-                            startDate = LocalDate.parse(startDateSearch, formatter);
-                        }
-                        catch (Exception ex)
-                        {
-                            System.out.println("Invalid date format, please try again");
+                            try
+                            {
+                                startDate = LocalDate.parse(startDateSearch, formatter);
+                            }
+                            catch (Exception ex)
+                            {
+                                System.out.println("Invalid date format, please try again");
+                                break;
+                            }
+
+                            // same logic as the filters I made earlier
+                            for (TransactionsInfo entry : transactions)
+                            {
+                                // .isAfter and .isEqual are part of LocalDate
+                                if (entry.getLocalDate().isAfter(startDate) || entry.getLocalDate().isEqual(startDate))
+                                {
+                                    System.out.println(entry.getDate() + "|" + entry.getTime() + "|" + entry.getDescription() + "|" + entry.getVendor() + "|$" + entry.getAmount());
+                                }
+                            }
+                            System.out.println();
+                            System.out.println("Search Successful");
+                            System.out.println();
+                            System.out.println("Returning to reports menu...");
+                            displayReportsScreen();
                             break;
-                        }
 
-                        // same logic as the filters I made earlier
-                        for (TransactionsInfo entry : transactions)
-                        {
-                            // .isAfter and .isEqual are part of LocalDate
-                            if (entry.getLocalDate().isAfter(startDate) || entry.getLocalDate().isEqual(startDate))
+                        case "2":
+                            System.out.println();
+                            System.out.print("Enter the end date you would like to search for (MM/DD/YYYY): ");
+                            String endDateSearch = userInput.nextLine().strip();
+
+                            // reused code from deposit and payment screen methods
+                            DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+                            LocalDate endDate;
+
+                            try
                             {
-                                System.out.println(entry.getDate() + "|" + entry.getTime() + "|" + entry.getDescription() + "|" + entry.getVendor() + "|$" + entry.getAmount());
+                                endDate = LocalDate.parse(endDateSearch, formatter2);
                             }
-                        }
-                        System.out.println("Search Successful");
-                        System.out.println();
-                        System.out.println("Returning to reports menu...");
-                        displayReportsScreen();
-                        break;
+                            catch (Exception ex)
+                            {
+                                System.out.println("Invalid date format, please try again");
+                                break;
+                            }
 
-                    case "2":
-                        System.out.println();
-                        System.out.print("Enter the end date you would like to search for (MM/DD/YYYY): ");
-                        String endDateSearch = userInput.nextLine().strip();
-
-                        // reused code from deposit and payment screen methods
-                        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-                        LocalDate endDate;
-
-                        try
-                        {
-                            endDate = LocalDate.parse(endDateSearch, formatter2);
-                        }
-                        catch (Exception ex)
-                        {
-                            System.out.println("Invalid date format, please try again");
+                            // same logic as the filters I made earlier
+                            for (TransactionsInfo entry : transactions)
+                            {
+                                // .isBefore and .isEqual are part of LocalDate, localdate is making me ANGRY
+                                if (entry.getLocalDate().isBefore(endDate) || entry.getLocalDate().isEqual(endDate))
+                                {
+                                    System.out.println(entry.getDate() + "|" + entry.getTime() + "|" + entry.getDescription() + "|" + entry.getVendor() + "|$" + entry.getAmount());
+                                }
+                            }
+                            System.out.println();
+                            System.out.println("Search Successful");
+                            System.out.println();
+                            System.out.println("Returning to reports menu...");
+                            displayReportsScreen();
                             break;
-                        }
 
-                        // same logic as the filters I made earlier
-                        for (TransactionsInfo entry : transactions)
-                        {
-                            // .isBefore and .isEqual are part of LocalDate, localdate is making me ANGRY
-                            if (entry.getLocalDate().isBefore(endDate) || entry.getLocalDate().isEqual(endDate))
+                        case "3":
+                            System.out.println();
+                            System.out.print("Enter the description you would like to search for: ");
+                            String descriptionSearch = userInput.nextLine().strip();
+
+                            // same logic as the vendorSearch method I made
+                            for (TransactionsInfo transaction : transactions)
                             {
-                                System.out.println(entry.getDate() + "|" + entry.getTime() + "|" + entry.getDescription() + "|" + entry.getVendor() + "|$" + entry.getAmount());
+                                if (transaction.getDescription().toLowerCase().contains(descriptionSearch.toLowerCase()))
+                                {
+                                    System.out.println(transaction.getDate() + "|" + transaction.getTime() + "|" + transaction.getDescription()
+                                            + "|" + transaction.getVendor() + "|$" + transaction.getAmount());
+                                }
                             }
-                        }
-                        System.out.println("Search Successful");
-                        System.out.println();
-                        System.out.println("Returning to reports menu...");
-                        displayReportsScreen();
-                        break;
+                            System.out.println();
+                            System.out.println("Search Successful");
+                            System.out.println();
+                            System.out.println("Returning to reports menu...");
+                            displayReportsScreen();
+                            break;
 
-                    case "3":
-                        System.out.println();
-                        System.out.print("Enter the description you would like to search for: ");
-                        String descriptionSearch = userInput.nextLine().strip();
+                        case "4":
+                            System.out.println();
+                            System.out.print("Enter the vendor name to you would like to search for: ");
+                            String vendorInput2 = userInput.nextLine();
+                            vendorSearch(vendorInput2);
+                            displayReportsScreen();
+                            break;
 
-                        // same logic as the vendorSearch method I made
-                        for (TransactionsInfo transaction : transactions)
-                        {
-                            if (transaction.getDescription().toLowerCase().contains(descriptionSearch.toLowerCase()))
+                        case "5":
+                            System.out.println();
+                            System.out.print("Enter the amount of $ you would like to search for: ");
+                            double amountSearch = Double.parseDouble(userInput.nextLine());
+
+                            // same logic as the vendorSearch method I made
+                            for (TransactionsInfo transaction : transactions)
                             {
-                                System.out.println(transaction.getDate() + "|" + transaction.getTime() + "|" + transaction.getDescription()
-                                        + "|" + transaction.getVendor() + "|$" + transaction.getAmount());
+                                if (transaction.getAmount() == amountSearch)
+                                {
+                                    System.out.println(transaction.getDate() + "|" + transaction.getTime() + "|" + transaction.getDescription()
+                                            + "|" + transaction.getVendor() + "|$" + transaction.getAmount());
+                                }
                             }
-                        }
-                        System.out.println("Search Successful");
-                        System.out.println();
-                        System.out.println("Returning to reports menu...");
-                        displayReportsScreen();
-                        break;
+                            System.out.println();
+                            System.out.println("Search Successful");
+                            System.out.println();
+                            System.out.println("Returning to reports menu...");
+                            displayReportsScreen();
+                            break;
 
-                    case "4":
-                        System.out.println();
-                        System.out.print("Enter the vendor name to you would like to search for: ");
-                        String vendorInput2 = userInput.nextLine();
-                        vendorSearch(vendorInput2);
-                        displayReportsScreen();
-                        break;
+                        case "0":
+                            displayReportsScreen();
+                            break;
 
-                    case "5":
-                        System.out.println();
-                        System.out.print("Enter the amount of $ you would like to search for: ");
-                        double amountSearch = Double.parseDouble(userInput.nextLine());
+                        // easter egg 3
+                        case "6":
+                            String art = """
+                        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠻⡒⢄⡀⠀⠀⠀⠀⡴⣏⡝⣳⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠒⠿⠀⠀⣠⡾⠛⠉⠉⠉⠛⠷⣄⠀⠀⠀⣤⠖⢻⠀⠀⠀⠀
+                        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⡾⠋⠀⠀⠀⠀⠀⠀⠀⠀⠙⠢⣀⠈⠓⠊⠀⠀⠀⠀
+                        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⡴⠾⢝⡷⠁⠀⠀⢠⡤⣤⢄⣀⣀⣀⠀⠀⠈⠳⡦⣀⠀⠀⠀⠀
+                        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡤⠔⠒⠊⠉⠉⠉⠉⠉⠉⠉⠙⠓⠲⠤⢤⣈⣷⡱⢎⡳⣍⢎⡟⣆⠀⠀⠈⢯⡛⢶⣤⣀
+                        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡤⠒⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠙⠓⠷⢼⣚⣜⣺⣀⣠⡠⠤⠿⠖⠚⠚
+                        ⠀⠀⠀⠀⠀⠀⠀⣤⢶⡶⣶⣶⠋⢀⣤⠶⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣩⠟⠉⠀⠀⠀⠀⠀⠀⠀
+                        ⠀⠀⠀⠀⠀⠀⣾⣛⢧⢞⣽⢃⠔⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣞⠁⢀⣀⣀⡀⠀⠀⠀⠀⠀
+                        ⠀⠀⠀⠀⠀⢠⢿⣜⣭⣾⣗⡋⣀⣤⣴⣶⢶⢲⣛⠿⣹⢏⣟⡻⣖⢶⣲⢤⣄⣀⠀⠀⢢⡀⢲⠒⠉⠉⢿⣿⣿⢽⢺⣱⢻⣦⠀⠀⠀⠀
+                        ⠀⠀⠀⠀⢠⠞⠉⣀⣀⡟⣷⠉⠉⣿⠇⠆⣬⡷⣭⣋⠅⢎⠤⢩⢉⣷⠙⣮⢓⠻⣿⣶⣄⠽⢶⣷⣲⡷⠶⣝⣮⢏⡳⣎⢷⢻⡆⠀⠀⠀
+                        ⠀⠀⠀⠀⢙⡿⣟⣽⠀⣿⢼⣦⣾⣛⣬⡱⣼⡟⣦⣹⣌⢢⣑⢃⠆⣾⣩⢟⣇⣊⣽⣧⠀⠀⣼⣿⢻⢃⣀⣀⠹⣿⣱⢫⣞⢯⣿⠀⠀⠀
+                        ⠀⠀⠀⠀⢸⡷⣟⣾⠀⢸⢞⣿⣿⡜⡶⣹⢮⣿⢶⣹⣏⢧⢏⣏⢻⣧⢏⣿⢲⡳⣼⢻⣁⣼⣿⠯⣟⡧⠀⢻⣽⣿⣽⣗⢮⠞⣿⠀⠀⠀
+                        ⠀⠀⠀⠀⢸⣗⡯⢾⡄⢻⣯⢾⣏⢾⡱⣣⡟⢺⣳⠟⣿⣾⣚⡬⣏⣿⠾⣿⣷⢽⠲⣏⣿⠿⣍⣾⣿⡇⠀⣸⣿⡞⢶⡹⣎⡟⣼⡄⠀⠀
+                        ⠀⠀⠀⠀⣼⣣⢟⡞⣧⣸⣿⣾⣏⣶⣽⠟⠁⠀⢻⡟⣼⡿⣧⡳⣭⢞⣿⡵⣺⣯⣻⡜⣽⣿⣸⣿⣿⡇⢀⣿⣿⣝⡣⣗⣣⡝⡞⡇⠀⠀
+                        ⠀⠀⠀⣰⠿⣬⠳⣎⣳⣽⢻⣻⣿⣿⣁⣀⢀⠀⠀⠉⢉⠉⠈⠉⠓⠛⣃⣉⣉⠉⠉⠓⣷⣾⠿⣿⣿⣥⣿⣼⣿⣎⡗⢮⡱⣝⡺⡇⠀⠀
+                        ⠀⢀⡴⣏⢟⡞⡧⢧⣟⢭⣓⢮⣽⣿⡜⡏⠙⠛⢻⡟⠛⠀⠀⠀⠀⠀⠛⠛⠻⣶⠶⠶⣾⣏⠷⣣⣿⣿⣿⡿⣿⡞⣼⢣⡛⢶⣙⣧⠀⠀
+                        ⠒⠿⠽⠚⠉⡿⢾⣝⣌⣧⣾⢞⣼⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⢭⣛⣵⡇⠈⢻⠀⣿⡟⢦⢣⡝⢦⢣⢻⠀⠀
+                        ⠀⠀⠀⠀⠀⡧⢇⡎⢾⣿⣿⢎⣿⣟⡳⠀⠙⠒⠒⠁⠀⠀⠀⠀⠀⠀⠀⠢⠤⠠⠤⣾⢫⢖⡱⣾⠁⠀⣸⠀⣿⣋⠎⡵⢈⠇⡅⣻⠀⠀
+                        ⠀⠀⠀⠀⢸⡇⡖⢈⠆⢿⣿⡜⣼⣿⣷⣤⣀⠀⠀⠀⠀⠠⠴⠒⣤⠀⠀⠀⠀⠠⠾⣾⡡⢎⣱⣏⡀⠔⠃⠀⣿⠜⡒⠄⠣⠌⠄⡹⡄⠀
+                        ⠀⠀⠀⠀⣼⢠⡁⢂⠊⠼⣿⢷⠸⣿⣟⣿⣯⡙⠒⠤⠤⢀⣀⣀⡀⣀⡠⠤⠤⠒⢪⡟⣐⣳⣿⡁⠀⠀⠀⣼⠛⣰⢊⠈⡂⠐⡀⢧⡬⠶
+                        ⠀⠀⠀⢠⡇⡼⢀⠂⠀⠆⣿⢼⡅⣿⣯⣿⣿⣷⣤⡀⠀⣠⣺⣿⣿⣞⠟⣦⡀⠀⣾⣷⡼⣷⣿⠅⠀⢀⡞⢁⡶⠋⡀⠔⠠⢱⡌⢸⡄⠀
+                        ⠀⠀⠀⣼⢠⡇⡀⠀⢁⠂⡟⡇⣿⣿⣳⠧⢹⠀⠀⢀⣾⡟⢿⣟⣿⠟⠖⣿⢱⣠⡇⢻⣿⣽⣿⠀⠺⠷⠒⢫⡇⠂⡁⠀⡁⣸⡇⠈⣇⠀
+                        ⠀⠀⢠⡇⣸⡇⠄⠡⠀⢸⠇⢧⠸⡽⠋⠀⣻⠀⢠⣞⡿⠀⡎⢀⡇⠀⠐⣿⣏⣿⡅⢈⢿⡿⠃⠀⠀⠀⠀⢸⡀⢁⠠⠁⠄⣽⣷⠀⢻⠀
+                        ⠀⠀⢸⠁⡏⡇⠠⠁⠂⣼⠀⣸⠞⠀⡐⢁⡏⢀⣿⣟⠇⢰⡡⠝⠃⠀⠀⣟⣾⡞⣇⠂⠌⢧⠀⠀⠀⠀⠀⣼⠀⠆⡀⠘⣰⣿⢽⠀⢸⡄
+                        ⠀⠀⠸⠦⠇⠧⠤⠤⠥⠇⠰⠥⠤⠤⠤⠼⢁⣮⣿⣿⣀⣀⣀⣀⣀⣀⣠⣿⣷⣯⡿⠦⠤⠬⠷⠄⠀⠀⡰⠧⠴⠤⠤⠵⠿⠝⠬⠬⠼⠁
+                                    My face when working on this capstone               
+                        """;
+                            System.out.println(art);
+                            displayReportsScreen();
+                            break;
 
-                        // same logic as the vendorSearch method I made
-                        for (TransactionsInfo transaction : transactions)
-                        {
-                            if (transaction.getAmount() == amountSearch)
-                            {
-                                System.out.println(transaction.getDate() + "|" + transaction.getTime() + "|" + transaction.getDescription()
-                                        + "|" + transaction.getVendor() + "|$" + transaction.getAmount());
-                            }
-                        }
-                        System.out.println("Search Successful");
-                        System.out.println();
-                        System.out.println("Returning to reports menu...");
-                        displayReportsScreen();
-                        break;
-
-                    case "0":
-                        displayReportsScreen();
-                        break;
-
-                    // easter egg 3
-                    case "6":
-                        String art = """
-                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠻⡒⢄⡀⠀⠀⠀⠀⡴⣏⡝⣳⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠒⠿⠀⠀⣠⡾⠛⠉⠉⠉⠛⠷⣄⠀⠀⠀⣤⠖⢻⠀⠀⠀⠀
-                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⡾⠋⠀⠀⠀⠀⠀⠀⠀⠀⠙⠢⣀⠈⠓⠊⠀⠀⠀⠀
-                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⡴⠾⢝⡷⠁⠀⠀⢠⡤⣤⢄⣀⣀⣀⠀⠀⠈⠳⡦⣀⠀⠀⠀⠀
-                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡤⠔⠒⠊⠉⠉⠉⠉⠉⠉⠉⠙⠓⠲⠤⢤⣈⣷⡱⢎⡳⣍⢎⡟⣆⠀⠀⠈⢯⡛⢶⣤⣀
-                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡤⠒⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠙⠓⠷⢼⣚⣜⣺⣀⣠⡠⠤⠿⠖⠚⠚
-                    ⠀⠀⠀⠀⠀⠀⠀⣤⢶⡶⣶⣶⠋⢀⣤⠶⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣩⠟⠉⠀⠀⠀⠀⠀⠀⠀
-                    ⠀⠀⠀⠀⠀⠀⣾⣛⢧⢞⣽⢃⠔⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣞⠁⢀⣀⣀⡀⠀⠀⠀⠀⠀
-                    ⠀⠀⠀⠀⠀⢠⢿⣜⣭⣾⣗⡋⣀⣤⣴⣶⢶⢲⣛⠿⣹⢏⣟⡻⣖⢶⣲⢤⣄⣀⠀⠀⢢⡀⢲⠒⠉⠉⢿⣿⣿⢽⢺⣱⢻⣦⠀⠀⠀⠀
-                    ⠀⠀⠀⠀⢠⠞⠉⣀⣀⡟⣷⠉⠉⣿⠇⠆⣬⡷⣭⣋⠅⢎⠤⢩⢉⣷⠙⣮⢓⠻⣿⣶⣄⠽⢶⣷⣲⡷⠶⣝⣮⢏⡳⣎⢷⢻⡆⠀⠀⠀
-                    ⠀⠀⠀⠀⢙⡿⣟⣽⠀⣿⢼⣦⣾⣛⣬⡱⣼⡟⣦⣹⣌⢢⣑⢃⠆⣾⣩⢟⣇⣊⣽⣧⠀⠀⣼⣿⢻⢃⣀⣀⠹⣿⣱⢫⣞⢯⣿⠀⠀⠀
-                    ⠀⠀⠀⠀⢸⡷⣟⣾⠀⢸⢞⣿⣿⡜⡶⣹⢮⣿⢶⣹⣏⢧⢏⣏⢻⣧⢏⣿⢲⡳⣼⢻⣁⣼⣿⠯⣟⡧⠀⢻⣽⣿⣽⣗⢮⠞⣿⠀⠀⠀
-                    ⠀⠀⠀⠀⢸⣗⡯⢾⡄⢻⣯⢾⣏⢾⡱⣣⡟⢺⣳⠟⣿⣾⣚⡬⣏⣿⠾⣿⣷⢽⠲⣏⣿⠿⣍⣾⣿⡇⠀⣸⣿⡞⢶⡹⣎⡟⣼⡄⠀⠀
-                    ⠀⠀⠀⠀⣼⣣⢟⡞⣧⣸⣿⣾⣏⣶⣽⠟⠁⠀⢻⡟⣼⡿⣧⡳⣭⢞⣿⡵⣺⣯⣻⡜⣽⣿⣸⣿⣿⡇⢀⣿⣿⣝⡣⣗⣣⡝⡞⡇⠀⠀
-                    ⠀⠀⠀⣰⠿⣬⠳⣎⣳⣽⢻⣻⣿⣿⣁⣀⢀⠀⠀⠉⢉⠉⠈⠉⠓⠛⣃⣉⣉⠉⠉⠓⣷⣾⠿⣿⣿⣥⣿⣼⣿⣎⡗⢮⡱⣝⡺⡇⠀⠀
-                    ⠀⢀⡴⣏⢟⡞⡧⢧⣟⢭⣓⢮⣽⣿⡜⡏⠙⠛⢻⡟⠛⠀⠀⠀⠀⠀⠛⠛⠻⣶⠶⠶⣾⣏⠷⣣⣿⣿⣿⡿⣿⡞⣼⢣⡛⢶⣙⣧⠀⠀
-                    ⠒⠿⠽⠚⠉⡿⢾⣝⣌⣧⣾⢞⣼⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⢭⣛⣵⡇⠈⢻⠀⣿⡟⢦⢣⡝⢦⢣⢻⠀⠀
-                    ⠀⠀⠀⠀⠀⡧⢇⡎⢾⣿⣿⢎⣿⣟⡳⠀⠙⠒⠒⠁⠀⠀⠀⠀⠀⠀⠀⠢⠤⠠⠤⣾⢫⢖⡱⣾⠁⠀⣸⠀⣿⣋⠎⡵⢈⠇⡅⣻⠀⠀
-                    ⠀⠀⠀⠀⢸⡇⡖⢈⠆⢿⣿⡜⣼⣿⣷⣤⣀⠀⠀⠀⠀⠠⠴⠒⣤⠀⠀⠀⠀⠠⠾⣾⡡⢎⣱⣏⡀⠔⠃⠀⣿⠜⡒⠄⠣⠌⠄⡹⡄⠀
-                    ⠀⠀⠀⠀⣼⢠⡁⢂⠊⠼⣿⢷⠸⣿⣟⣿⣯⡙⠒⠤⠤⢀⣀⣀⡀⣀⡠⠤⠤⠒⢪⡟⣐⣳⣿⡁⠀⠀⠀⣼⠛⣰⢊⠈⡂⠐⡀⢧⡬⠶
-                    ⠀⠀⠀⢠⡇⡼⢀⠂⠀⠆⣿⢼⡅⣿⣯⣿⣿⣷⣤⡀⠀⣠⣺⣿⣿⣞⠟⣦⡀⠀⣾⣷⡼⣷⣿⠅⠀⢀⡞⢁⡶⠋⡀⠔⠠⢱⡌⢸⡄⠀
-                    ⠀⠀⠀⣼⢠⡇⡀⠀⢁⠂⡟⡇⣿⣿⣳⠧⢹⠀⠀⢀⣾⡟⢿⣟⣿⠟⠖⣿⢱⣠⡇⢻⣿⣽⣿⠀⠺⠷⠒⢫⡇⠂⡁⠀⡁⣸⡇⠈⣇⠀
-                    ⠀⠀⢠⡇⣸⡇⠄⠡⠀⢸⠇⢧⠸⡽⠋⠀⣻⠀⢠⣞⡿⠀⡎⢀⡇⠀⠐⣿⣏⣿⡅⢈⢿⡿⠃⠀⠀⠀⠀⢸⡀⢁⠠⠁⠄⣽⣷⠀⢻⠀
-                    ⠀⠀⢸⠁⡏⡇⠠⠁⠂⣼⠀⣸⠞⠀⡐⢁⡏⢀⣿⣟⠇⢰⡡⠝⠃⠀⠀⣟⣾⡞⣇⠂⠌⢧⠀⠀⠀⠀⠀⣼⠀⠆⡀⠘⣰⣿⢽⠀⢸⡄
-                    ⠀⠀⠸⠦⠇⠧⠤⠤⠥⠇⠰⠥⠤⠤⠤⠼⢁⣮⣿⣿⣀⣀⣀⣀⣀⣀⣠⣿⣷⣯⡿⠦⠤⠬⠷⠄⠀⠀⡰⠧⠴⠤⠤⠵⠿⠝⠬⠬⠼⠁
-                                My face when working on this capstone               
-                    """;
-                        System.out.println(art);
-                        displayReportsScreen();
-                        break;
-                    default:
-                        System.out.println("Error, please try again");
-                        System.out.println();
-                        System.out.println("Returning to reports menu...");
-                        displayReportsScreen();
-                }
-                break;
+                        default:
+                            System.out.println();
+                            System.out.println("Error, please try again");
+                            System.out.println();
+                            System.out.println("Returning to reports menu...");
+                            displayReportsScreen();
+                    }
+                    break;
 
             case "0":
                 displayLedgerScreen();
@@ -650,6 +659,7 @@ public class AccountingApp
                 break;
 
             default:
+                System.out.println();
                 System.out.println("Error, please try again");
                 displayReportsScreen();
         }
@@ -761,16 +771,6 @@ public class AccountingApp
             }
         }
     }
-
-
-
-
-    // search method user inside displayReportsScreen();
-    static void customSearch()
-    {
-
-    }
-
 
 
 
