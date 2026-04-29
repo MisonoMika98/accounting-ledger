@@ -115,6 +115,7 @@ public class AccountingApp
         }
         catch (Exception ex)
         {
+            System.out.println();
             System.out.println("Invalid number, please try again");
             displayDepositScreen();
             return;
@@ -135,6 +136,7 @@ public class AccountingApp
         }
         catch (Exception ex)
         {
+            System.out.println();
             System.out.println("Invalid date format, please try again");
             displayDepositScreen();
             return;
@@ -188,6 +190,7 @@ public class AccountingApp
         }
         catch (Exception ex)
         {
+            System.out.println();
             System.out.println("Invalid number, please try again");
             displayPaymentScreen();
             return;
@@ -208,6 +211,7 @@ public class AccountingApp
         }
         catch (Exception ex)
         {
+            System.out.println();
             System.out.println("Invalid date format, please try again");
             displayPaymentScreen();
             return;
@@ -462,8 +466,12 @@ public class AccountingApp
                             }
                             catch (Exception ex)
                             {
+                                System.out.println();
                                 System.out.println("Invalid date format, please try again");
-                                break;
+                                System.out.println();
+                                System.out.println("Returning to reports menu...");
+                                displayReportsScreen();
+                                return;
                             }
 
                             // same logic as the filters I made earlier
@@ -497,8 +505,12 @@ public class AccountingApp
                             }
                             catch (Exception ex)
                             {
+                                System.out.println();
                                 System.out.println("Invalid date format, please try again");
-                                break;
+                                System.out.println();
+                                System.out.println("Returning to reports menu...");
+                                displayReportsScreen();
+                                return;
                             }
 
                             // same logic as the filters I made earlier
