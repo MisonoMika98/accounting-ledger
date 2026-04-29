@@ -390,6 +390,7 @@ public class AccountingApp
         System.out.println("3) Year To Date");
         System.out.println("4) Previous Year");
         System.out.println("5) Search By Vendor");
+        System.out.println("6) Custom Search");
         System.out.println("0) Back To Ledger Screen");
         System.out.println();
         System.out.print("Make your selection here: ");
@@ -427,10 +428,17 @@ public class AccountingApp
                 displayReportsScreen();
                 break;
 
+            case "6":
+                System.out.println();
+                System.out.print("custom search placeholder: ");
+                String userSearch = userInput.nextLine().strip();
+                break;
+
             case "0":
                 displayLedgerScreen();
                 break;
 
+            // easter egg 3
             case "1337":
                 String art = """
                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣷⣶⣤⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -467,6 +475,40 @@ public class AccountingApp
                 ⣿⣿⡏⠀⠀⠁⠀⠀⠀⠉⠉⠙⢻⣿⣿⣿⣿⣷⡀⠀⠀⠀⠻⣿⣿⣿⣿⣿⠿⠿⠛⠁⠀⣀⣴⣿⣿⣿⣿⠟⠀⠀⠀⠀⠀⠀⠀⠀⢠⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠰
                 """;
                 System.out.println(art);
+                displayReportsScreen();
+                break;
+
+            // easter egg 4 final
+            case "420":
+            String art2 = """
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠻⡒⢄⡀⠀⠀⠀⠀⡴⣏⡝⣳⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠒⠿⠀⠀⣠⡾⠛⠉⠉⠉⠛⠷⣄⠀⠀⠀⣤⠖⢻⠀⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⡾⠋⠀⠀⠀⠀⠀⠀⠀⠀⠙⠢⣀⠈⠓⠊⠀⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⡴⠾⢝⡷⠁⠀⠀⢠⡤⣤⢄⣀⣀⣀⠀⠀⠈⠳⡦⣀⠀⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡤⠔⠒⠊⠉⠉⠉⠉⠉⠉⠉⠙⠓⠲⠤⢤⣈⣷⡱⢎⡳⣍⢎⡟⣆⠀⠀⠈⢯⡛⢶⣤⣀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡤⠒⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠙⠓⠷⢼⣚⣜⣺⣀⣠⡠⠤⠿⠖⠚⠚
+                    ⠀⠀⠀⠀⠀⠀⠀⣤⢶⡶⣶⣶⠋⢀⣤⠶⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣩⠟⠉⠀⠀⠀⠀⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⣾⣛⢧⢞⣽⢃⠔⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣞⠁⢀⣀⣀⡀⠀⠀⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⢠⢿⣜⣭⣾⣗⡋⣀⣤⣴⣶⢶⢲⣛⠿⣹⢏⣟⡻⣖⢶⣲⢤⣄⣀⠀⠀⢢⡀⢲⠒⠉⠉⢿⣿⣿⢽⢺⣱⢻⣦⠀⠀⠀⠀
+                    ⠀⠀⠀⠀⢠⠞⠉⣀⣀⡟⣷⠉⠉⣿⠇⠆⣬⡷⣭⣋⠅⢎⠤⢩⢉⣷⠙⣮⢓⠻⣿⣶⣄⠽⢶⣷⣲⡷⠶⣝⣮⢏⡳⣎⢷⢻⡆⠀⠀⠀
+                    ⠀⠀⠀⠀⢙⡿⣟⣽⠀⣿⢼⣦⣾⣛⣬⡱⣼⡟⣦⣹⣌⢢⣑⢃⠆⣾⣩⢟⣇⣊⣽⣧⠀⠀⣼⣿⢻⢃⣀⣀⠹⣿⣱⢫⣞⢯⣿⠀⠀⠀
+                    ⠀⠀⠀⠀⢸⡷⣟⣾⠀⢸⢞⣿⣿⡜⡶⣹⢮⣿⢶⣹⣏⢧⢏⣏⢻⣧⢏⣿⢲⡳⣼⢻⣁⣼⣿⠯⣟⡧⠀⢻⣽⣿⣽⣗⢮⠞⣿⠀⠀⠀
+                    ⠀⠀⠀⠀⢸⣗⡯⢾⡄⢻⣯⢾⣏⢾⡱⣣⡟⢺⣳⠟⣿⣾⣚⡬⣏⣿⠾⣿⣷⢽⠲⣏⣿⠿⣍⣾⣿⡇⠀⣸⣿⡞⢶⡹⣎⡟⣼⡄⠀⠀
+                    ⠀⠀⠀⠀⣼⣣⢟⡞⣧⣸⣿⣾⣏⣶⣽⠟⠁⠀⢻⡟⣼⡿⣧⡳⣭⢞⣿⡵⣺⣯⣻⡜⣽⣿⣸⣿⣿⡇⢀⣿⣿⣝⡣⣗⣣⡝⡞⡇⠀⠀
+                    ⠀⠀⠀⣰⠿⣬⠳⣎⣳⣽⢻⣻⣿⣿⣁⣀⢀⠀⠀⠉⢉⠉⠈⠉⠓⠛⣃⣉⣉⠉⠉⠓⣷⣾⠿⣿⣿⣥⣿⣼⣿⣎⡗⢮⡱⣝⡺⡇⠀⠀
+                    ⠀⢀⡴⣏⢟⡞⡧⢧⣟⢭⣓⢮⣽⣿⡜⡏⠙⠛⢻⡟⠛⠀⠀⠀⠀⠀⠛⠛⠻⣶⠶⠶⣾⣏⠷⣣⣿⣿⣿⡿⣿⡞⣼⢣⡛⢶⣙⣧⠀⠀
+                    ⠒⠿⠽⠚⠉⡿⢾⣝⣌⣧⣾⢞⣼⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⢭⣛⣵⡇⠈⢻⠀⣿⡟⢦⢣⡝⢦⢣⢻⠀⠀
+                    ⠀⠀⠀⠀⠀⡧⢇⡎⢾⣿⣿⢎⣿⣟⡳⠀⠙⠒⠒⠁⠀⠀⠀⠀⠀⠀⠀⠢⠤⠠⠤⣾⢫⢖⡱⣾⠁⠀⣸⠀⣿⣋⠎⡵⢈⠇⡅⣻⠀⠀
+                    ⠀⠀⠀⠀⢸⡇⡖⢈⠆⢿⣿⡜⣼⣿⣷⣤⣀⠀⠀⠀⠀⠠⠴⠒⣤⠀⠀⠀⠀⠠⠾⣾⡡⢎⣱⣏⡀⠔⠃⠀⣿⠜⡒⠄⠣⠌⠄⡹⡄⠀
+                    ⠀⠀⠀⠀⣼⢠⡁⢂⠊⠼⣿⢷⠸⣿⣟⣿⣯⡙⠒⠤⠤⢀⣀⣀⡀⣀⡠⠤⠤⠒⢪⡟⣐⣳⣿⡁⠀⠀⠀⣼⠛⣰⢊⠈⡂⠐⡀⢧⡬⠶
+                    ⠀⠀⠀⢠⡇⡼⢀⠂⠀⠆⣿⢼⡅⣿⣯⣿⣿⣷⣤⡀⠀⣠⣺⣿⣿⣞⠟⣦⡀⠀⣾⣷⡼⣷⣿⠅⠀⢀⡞⢁⡶⠋⡀⠔⠠⢱⡌⢸⡄⠀
+                    ⠀⠀⠀⣼⢠⡇⡀⠀⢁⠂⡟⡇⣿⣿⣳⠧⢹⠀⠀⢀⣾⡟⢿⣟⣿⠟⠖⣿⢱⣠⡇⢻⣿⣽⣿⠀⠺⠷⠒⢫⡇⠂⡁⠀⡁⣸⡇⠈⣇⠀
+                    ⠀⠀⢠⡇⣸⡇⠄⠡⠀⢸⠇⢧⠸⡽⠋⠀⣻⠀⢠⣞⡿⠀⡎⢀⡇⠀⠐⣿⣏⣿⡅⢈⢿⡿⠃⠀⠀⠀⠀⢸⡀⢁⠠⠁⠄⣽⣷⠀⢻⠀
+                    ⠀⠀⢸⠁⡏⡇⠠⠁⠂⣼⠀⣸⠞⠀⡐⢁⡏⢀⣿⣟⠇⢰⡡⠝⠃⠀⠀⣟⣾⡞⣇⠂⠌⢧⠀⠀⠀⠀⠀⣼⠀⠆⡀⠘⣰⣿⢽⠀⢸⡄
+                    ⠀⠀⠸⠦⠇⠧⠤⠤⠥⠇⠰⠥⠤⠤⠤⠼⢁⣮⣿⣿⣀⣀⣀⣀⣀⣀⣠⣿⣷⣯⡿⠦⠤⠬⠷⠄⠀⠀⡰⠧⠴⠤⠤⠵⠿⠝⠬⠬⠼⠁
+                                My face when working on this capstone               
+            """;
+                System.out.println(art2);
                 displayReportsScreen();
                 break;
 
@@ -570,7 +612,7 @@ public class AccountingApp
 
 
 
-    // method used inside displayReportsScreen();
+    // search method used inside displayReportsScreen();
     static void vendorSearch(String vendor)
     {
         for (TransactionsInfo transaction : transactions)
@@ -582,6 +624,14 @@ public class AccountingApp
             }
         }
     }
+
+
+
+
+    // search method user inside displayReportsScreen();
+//    static void customSearch(){}
+
+
 
 
 
