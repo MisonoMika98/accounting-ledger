@@ -443,7 +443,7 @@ public class AccountingApp
                 System.out.println("2) End Date");
                 System.out.println("3) Description");
                 System.out.println("4) Vendor");
-                System.out.println("5) Amount of $");
+                System.out.println("5) Amount of $ (search a range)");
                 System.out.println("0) Exit Custom Search");
                 System.out.print("Enter your selection here: ");
                 String searchSelection = userInput.nextLine().strip();
@@ -560,29 +560,41 @@ public class AccountingApp
 
                         case "5":
                             System.out.println();
-                            System.out.print("Enter the amount of $ you would like to search for: ");
-                            double amountSearch;
+                            System.out.print("Enter a minimum amount cutoff in $: ");
+                            double minAmountSearch;
+                            double maxAmountSearch;
 
                             // try catch so the app doesn't crash if user inputs a string or nothing when asked for $ amount
                             try
                             {
-                                amountSearch = Double.parseDouble(userInput.nextLine());
+                                minAmountSearch = Double.parseDouble(userInput.nextLine());
                             }
                             catch (Exception ex)
                             {
                                 System.out.println();
                                 System.out.println("Invalid number, please try again");
-                                System.out.println();
-                                System.out.println("Returning to Reports menu...");
-                                displayReportsScreen();
-                                return;
+                                break;
                             }
+
+                            System.out.println();
+                            System.out.print("Enter a maximum amount cutoff in $: ");
+                            try
+                            {
+                                maxAmountSearch = Double.parseDouble(userInput.nextLine());
+                            }
+                            catch (Exception ex)
+                            {
+                                System.out.println();
+                                System.out.println("Invalid number, please try again");
+                                break;
+                            }
+
 
                             // same logic as the vendorSearch method I made
                             for (TransactionsInfo transaction : transactions)
                             {
-                                // math.abs fixes any potential user input issues such as 50.0
-                                if (Math.abs(transaction.getAmount() - amountSearch) < 0.001)
+                                // searches for a range the user inputs
+                                if (transaction.getAmount() >= minAmountSearch && transaction.getAmount() <= maxAmountSearch)
                                 {
                                     System.out.println(transaction.getDate() + "|" + transaction.getTime() + "|" + transaction.getDescription()
                                             + "|" + transaction.getVendor() + "|$" + transaction.getAmount());
@@ -627,7 +639,6 @@ public class AccountingApp
                         ⠀⠀⢠⡇⣸⡇⠄⠡⠀⢸⠇⢧⠸⡽⠋⠀⣻⠀⢠⣞⡿⠀⡎⢀⡇⠀⠐⣿⣏⣿⡅⢈⢿⡿⠃⠀⠀⠀⠀⢸⡀⢁⠠⠁⠄⣽⣷⠀⢻⠀
                         ⠀⠀⢸⠁⡏⡇⠠⠁⠂⣼⠀⣸⠞⠀⡐⢁⡏⢀⣿⣟⠇⢰⡡⠝⠃⠀⠀⣟⣾⡞⣇⠂⠌⢧⠀⠀⠀⠀⠀⣼⠀⠆⡀⠘⣰⣿⢽⠀⢸⡄
                         ⠀⠀⠸⠦⠇⠧⠤⠤⠥⠇⠰⠥⠤⠤⠤⠼⢁⣮⣿⣿⣀⣀⣀⣀⣀⣀⣠⣿⣷⣯⡿⠦⠤⠬⠷⠄⠀⠀⡰⠧⠴⠤⠤⠵⠿⠝⠬⠬⠼⠁
-                                    My face when working on this capstone               
                         """;
                             System.out.println(art);
                             displayReportsScreen();
