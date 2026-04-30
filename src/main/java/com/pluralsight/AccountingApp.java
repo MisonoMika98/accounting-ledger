@@ -448,6 +448,7 @@ public class AccountingApp
                 System.out.print("Enter your selection here: ");
                 String searchSelection = userInput.nextLine().strip();
 
+
                     // switch inside a switch... switchception O_o
                     switch (searchSelection)
                     {
@@ -455,6 +456,7 @@ public class AccountingApp
                             System.out.println();
                             System.out.print("Enter the start date you would like to search for (MM/DD/YYYY): ");
                             String startDateSearch = userInput.nextLine().strip();
+                            System.out.println();
 
                             // reused code from deposit and payment screen methods
                             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
@@ -494,6 +496,7 @@ public class AccountingApp
                             System.out.println();
                             System.out.print("Enter the end date you would like to search for (MM/DD/YYYY): ");
                             String endDateSearch = userInput.nextLine().strip();
+                            System.out.println();
 
                             // reused code from deposit and payment screen methods
                             DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("MM/dd/yyyy");
@@ -532,7 +535,8 @@ public class AccountingApp
                         case "3":
                             System.out.println();
                             System.out.print("Enter the description you would like to search for: ");
-                            String descriptionSearch = userInput.nextLine().strip();
+                            String descriptionSearch = userInput.nextLine();
+                            System.out.println();
 
                             // same logic as the vendorSearch method I made
                             for (TransactionsInfo transaction : transactions)
@@ -561,6 +565,7 @@ public class AccountingApp
                         case "5":
                             System.out.println();
                             System.out.print("Enter a minimum amount cutoff in $: ");
+                            System.out.println();
                             double minAmountSearch;
                             double maxAmountSearch;
 
@@ -573,7 +578,10 @@ public class AccountingApp
                             {
                                 System.out.println();
                                 System.out.println("Invalid number, please try again");
-                                break;
+                                System.out.println();
+                                System.out.println("Returning to reports menu...");
+                                displayReportsScreen();
+                                return;
                             }
 
                             System.out.println();
@@ -586,7 +594,10 @@ public class AccountingApp
                             {
                                 System.out.println();
                                 System.out.println("Invalid number, please try again");
-                                break;
+                                System.out.println();
+                                System.out.println("Returning to reports menu...");
+                                displayReportsScreen();
+                                return;
                             }
 
 
@@ -801,6 +812,7 @@ public class AccountingApp
     // search method used inside displayReportsScreen();
     static void vendorSearch(String vendor)
     {
+        System.out.println();
         for (TransactionsInfo transaction : transactions)
         {
             if (transaction.getVendor().toLowerCase().contains(vendor.toLowerCase()))
