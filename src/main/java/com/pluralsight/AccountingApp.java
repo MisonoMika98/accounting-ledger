@@ -581,7 +581,8 @@ public class AccountingApp
                             // same logic as the vendorSearch method I made
                             for (TransactionsInfo transaction : transactions)
                             {
-                                if (transaction.getAmount() == amountSearch)
+                                // math.abs fixes any potential user input issues such as 50.0
+                                if (Math.abs(transaction.getAmount() - amountSearch) < 0.001)
                                 {
                                     System.out.println(transaction.getDate() + "|" + transaction.getTime() + "|" + transaction.getDescription()
                                             + "|" + transaction.getVendor() + "|$" + transaction.getAmount());
