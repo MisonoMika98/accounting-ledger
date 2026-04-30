@@ -561,7 +561,22 @@ public class AccountingApp
                         case "5":
                             System.out.println();
                             System.out.print("Enter the amount of $ you would like to search for: ");
-                            double amountSearch = Double.parseDouble(userInput.nextLine());
+                            double amountSearch;
+
+                            // try catch so the app doesn't crash if user inputs a string or nothing when asked for $ amount
+                            try
+                            {
+                                amountSearch = Double.parseDouble(userInput.nextLine());
+                            }
+                            catch (Exception ex)
+                            {
+                                System.out.println();
+                                System.out.println("Invalid number, please try again");
+                                System.out.println();
+                                System.out.println("Returning to Reports menu...");
+                                displayReportsScreen();
+                                return;
+                            }
 
                             // same logic as the vendorSearch method I made
                             for (TransactionsInfo transaction : transactions)
