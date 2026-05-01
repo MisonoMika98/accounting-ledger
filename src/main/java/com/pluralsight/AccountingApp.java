@@ -12,12 +12,17 @@ import java.util.Scanner;
 
 public class AccountingApp
 {
+    // easter egg 1 color
+    public static final String RED = "\u001B[31m";
+    // resets terminal text color so everything isn't RED
+    public static final String RESET = "\u001B[0m";
 
+    // variables called here to be used throughout the program
     static Scanner userInput = new Scanner(System.in);
     static ArrayList<TransactionsInfo> transactions;
 
 
-    public static void main()
+    static void main()
     {
         transactions = loadTransactions();
         displayHomeScreen();
@@ -82,7 +87,7 @@ public class AccountingApp
                 ⠀⠀⠀⠀⠀⠀⠀⢿⣿⣦⣄⣀⣠⣴⣿⣿⠁⠀⠈⠻⣿⣿⣿⣿⡿⠏⠀⠀⠀⠀
                 ⠀⠀⠀⠀⠀⠀⠀⠈⠛⠻⠿⠿⠿⠿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
                 """;
-                System.out.println(art);
+                System.out.println(RED + art + RESET);
                 displayHomeScreen();
                 break;
 
