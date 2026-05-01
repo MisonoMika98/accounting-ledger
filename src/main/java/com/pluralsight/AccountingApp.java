@@ -17,9 +17,11 @@ public class AccountingApp
     // resets terminal text color so everything isn't RED
     public static final String RESET = "\u001B[0m";
 
+
     // variables called here to be used throughout the program
     static Scanner userInput = new Scanner(System.in);
     static ArrayList<TransactionsInfo> transactions;
+
 
 
     static void main()
@@ -27,6 +29,7 @@ public class AccountingApp
         transactions = loadTransactions();
         displayHomeScreen();
     }
+
 
 
 
@@ -102,6 +105,7 @@ public class AccountingApp
 
 
 
+
     static void displayDepositScreen()
     {
         System.out.println();
@@ -117,6 +121,15 @@ public class AccountingApp
         try
         {
             amountDeposited = Double.parseDouble(userInput.nextLine());
+
+            // makes it so user can't put a negative number inside something that should only be positive numbers
+            if (amountDeposited < 0)
+            {
+                System.out.println();
+                System.out.println("Invalid amount, please try again");
+                displayDepositScreen();
+                return;
+            }
         }
         catch (Exception ex)
         {
@@ -178,6 +191,7 @@ public class AccountingApp
 
 
 
+
     static void displayPaymentScreen()
     {
         System.out.println();
@@ -192,6 +206,15 @@ public class AccountingApp
         try
         {
             amountSpent = Double.parseDouble(userInput.nextLine());
+
+            // makes it so user can't put a negative number inside something that should only be positive numbers
+            if (amountSpent < 0)
+            {
+                System.out.println();
+                System.out.println("Invalid amount, please try again");
+                displayPaymentScreen();
+                return;
+            }
         }
         catch (Exception ex)
         {
@@ -251,6 +274,7 @@ public class AccountingApp
         displayHomeScreen();
 
     }
+
 
 
 
@@ -341,6 +365,7 @@ public class AccountingApp
 
 
 
+
     // method used inside displayLedgerScreen();
     static void displayAllTransactions()
     {
@@ -351,6 +376,7 @@ public class AccountingApp
                     + allTransactions.getVendor() + "|$" + allTransactions.getAmount());
         }
     }
+
 
 
 
@@ -373,6 +399,7 @@ public class AccountingApp
 
 
 
+
     // method used inside displayLedgerScreen();
     static void displayPaymentsOnly()
     {
@@ -387,6 +414,7 @@ public class AccountingApp
             }
         }
     }
+
 
 
 
@@ -499,6 +527,7 @@ public class AccountingApp
 
 
 
+    // new screen method that's used inside displayReportsScreen();
     static void displayCustomSearch()
     {
         System.out.println();
@@ -551,12 +580,14 @@ public class AccountingApp
                         System.out.println(entry.getDate() + "|" + entry.getTime() + "|" + entry.getDescription() + "|" + entry.getVendor() + "|$" + entry.getAmount());
                     }
                 }
+
                 System.out.println();
                 System.out.println("Search Successful");
                 System.out.println();
                 System.out.println("Returning to Custom Search menu...");
                 displayCustomSearch();
                 break;
+
 
             case "2":
                 System.out.println();
@@ -598,6 +629,7 @@ public class AccountingApp
                 displayCustomSearch();
                 break;
 
+
             case "3":
                 System.out.println();
                 System.out.print("Enter the description you would like to search for: ");
@@ -620,6 +652,7 @@ public class AccountingApp
                 displayCustomSearch();
                 break;
 
+
             case "4":
                 System.out.println();
                 System.out.print("Enter the vendor name to you would like to search for: ");
@@ -627,6 +660,7 @@ public class AccountingApp
                 vendorSearch(vendorInput2);
                 displayCustomSearch();
                 break;
+
 
             case "5":
                 System.out.println();
@@ -651,10 +685,12 @@ public class AccountingApp
 
                 System.out.println();
                 System.out.print("Enter a maximum amount cutoff in $: ");
+
                 try
                 {
                     maxAmountSearch = Double.parseDouble(userInput.nextLine());
                 }
+
                 catch (Exception ex)
                 {
                     System.out.println();
@@ -684,9 +720,11 @@ public class AccountingApp
                 displayCustomSearch();
                 break;
 
+
             case "0":
                 displayReportsScreen();
                 break;
+
 
             // easter egg 3
             case "6":
@@ -721,12 +759,15 @@ public class AccountingApp
                 displayCustomSearch();
                 break;
 
+
             default:
                 System.out.println();
                 System.out.println("Error, please try again");
                 displayCustomSearch();
         }
     }
+
+
 
 
 
@@ -775,6 +816,7 @@ public class AccountingApp
 
 
 
+
     // method used inside displayReportsScreen();
     static void yearToDateFilter()
     {
@@ -792,6 +834,7 @@ public class AccountingApp
             }
         }
     }
+
 
 
 
@@ -820,6 +863,7 @@ public class AccountingApp
 
 
 
+
     // search method used inside displayReportsScreen();
     static void vendorSearch(String vendor)
     {
@@ -833,6 +877,7 @@ public class AccountingApp
             }
         }
     }
+
 
 
 
@@ -883,6 +928,7 @@ public class AccountingApp
 
 
 
+
     // log method used to add the user's inputs onto the .csv file
     private static void logTransactions(String dateInput, String time, String description, String vendor, double amount)
     {
@@ -899,5 +945,6 @@ public class AccountingApp
             System.out.println(ex.getMessage());
         }
     }
+
 
 }
