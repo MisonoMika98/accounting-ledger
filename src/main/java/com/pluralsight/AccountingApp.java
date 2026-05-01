@@ -17,7 +17,7 @@ public class AccountingApp
     static ArrayList<TransactionsInfo> transactions;
 
 
-    static void main()
+    public static void main()
     {
         transactions = loadTransactions();
         displayHomeScreen();
@@ -879,38 +879,17 @@ public class AccountingApp
 
 
     // log method used to add the user's inputs onto the .csv file
-    private static void logTransactions (String dateInput, String time, String description, String vendor, double amount)
+    private static void logTransactions(String dateInput, String time, String description, String vendor, double amount)
     {
-
-        FileOutputStream fileOutputStream = null;
-        PrintWriter printWriter = null;
-
-        try
+        try (FileOutputStream fileOutputStream = new FileOutputStream("transactions.csv", true);
+             PrintWriter printWriter = new PrintWriter(fileOutputStream))
         {
-            fileOutputStream = new FileOutputStream("transactions.csv", true);
-            printWriter = new PrintWriter(fileOutputStream);
-
-            // gets the specific time for the transaction logs
-
-
-            // logs into the .csv file (insert formatter)
             printWriter.println(dateInput + "|" + time + "|" + description + "|" + vendor + "|" + amount);
         }
-
-        // catches any errors
         catch (Exception ex)
         {
             System.out.println(ex.getMessage());
         }
-        finally
-        {
-            if (printWriter != null)
-            {
-                // PrintWriter doesn't throw an exception if it fails to close, so we don't need to catch it
-                printWriter.close();
-            }
-        }
-
     }
 
 }
