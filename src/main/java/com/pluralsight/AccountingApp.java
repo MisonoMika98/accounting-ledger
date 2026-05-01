@@ -886,9 +886,12 @@ public class AccountingApp
     // log method used to add the user's inputs onto the .csv file
     private static void logTransactions(String dateInput, String time, String description, String vendor, double amount)
     {
+        // calls the variables inside the try block
+        // important to note, will be using in the future
         try (FileOutputStream fileOutputStream = new FileOutputStream("transactions.csv", true);
              PrintWriter printWriter = new PrintWriter(fileOutputStream))
         {
+            // logs into the .csv file (insert formatter)
             printWriter.println(dateInput + "|" + time + "|" + description + "|" + vendor + "|" + amount);
         }
         catch (Exception ex)
