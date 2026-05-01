@@ -16,6 +16,15 @@ your records, all stored locally inside a .csv file.
 - **Reports:** Search with built-in custom search filters
 - And more... ඞ?
 
+## Design Process
+- I wrote down what I wanted to start coding first along with what repos I've worked on in the past I will probably need to refer to when working on this app.
+- I knew I wanted to do the homescreen for the app and have the log working, so I focused on those 2 first.
+- After that I finished most of the screen and finished the log along with creating the arraylist that the app will be using.
+- All that was left was the reports menu and custom search which both reused a lot of code outside of LocalDate usage.
+
+## Interesting Code
+- I'm proud of the log I made along with my Custom Search.
+
 ## Screenshots
 <img width="380" height="176" alt="Untitled" src="https://github.com/user-attachments/assets/e3003dda-51f7-4875-8559-5995b106efb7" />
 <img width="335" height="245" alt="Untitled4" src="https://github.com/user-attachments/assets/2da2cc2f-c1db-42b1-b479-a37eeeb4f9a1" />
